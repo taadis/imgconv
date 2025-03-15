@@ -19,10 +19,16 @@ imgconv 这个名字参考标准库中 strconv,有 go 的命名调性
 可以通过 go install 直接获取并安装 imgconv 命令行工具
 
 ```
-go install github.com/taadis/imgconv/cmd/imgconv
+go install github.com/taadis/imgconv/cmd/imgconv@latest
 ```
 
-安装成功后，在你的 `$GOBIN` 目录下会出现一个 imgconv 工具
+安装成功后，在你的 `GOBIN` 目录下会出现一个 imgconv 工具
+
+```
+ls $(go env GOPATH)/bin
+# or
+ls $(go env GOBIN)
+```
 
 接下来就可以使用 imgconv 命令行工具进行图片转换操作了
 
