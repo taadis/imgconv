@@ -32,6 +32,14 @@ ls $(go env GOBIN)
 
 接下来就可以使用 imgconv 命令行工具进行图片转换操作了
 
+把某一个 .gif 格式图片转为 .png 格式
+
 ```
-imgconv -input your/path/xxx.gif your/path/xxx.png
+imgconv -input your/path/xxx.gif -output your/path/xxx.png
+```
+
+把指定目录下的所有 .gif 格式图片都转为 .png 格式
+
+```
+imgconv -input your/path/*.gif -output your/path/*.png
 ```
