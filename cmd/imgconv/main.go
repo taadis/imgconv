@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -35,9 +36,24 @@ func main() {
 
 	outputDir := filepath.Dir(*outputPattern)
 	for _, inputPath := range inputFiles {
+		// 打开输入文件
+		inputFile, err := os.Open(inputPath)
+		if err != nil {
+			log.Fatalf("无法打开输入文件 %s: %v", inputPath, err)
+		}
+		defer inputFile.Close()
+
+		// 准备输出文件路径和文件
 		outputFileName := strings.Replace(filepath.Base(inputPath), ".gif", ".png", 1)
 		outputPath := filepath.Join(outputDir, outputFileName)
-		err := gif2png.ConvertGIFToPNG(inputPath, outputPath)
+		outputFile, err := os.Create(outputPath)
+		if err != nil {
+			log.Fatalf("无法创建输出文件 %s: %v", outputPath, err)
+		}
+		defer outputFile.Close()
+
+		// 执行转换
+		err = gif2png.NewGIFToPNGConverter().Convert(inputFile, outputFile)
 		if err != nil {
 			log.Fatalf("转换失败: %v", err)
 		}

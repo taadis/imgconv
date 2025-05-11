@@ -3,21 +3,21 @@ package gif2png
 import (
 	"image/gif"
 	"image/png"
-
-	"os"
+	"io"
 )
 
-// ConvertGIFToPNG 将指定的 GIF 文件转换为 PNG 文件
-func ConvertGIFToPNG(inputPath string, outputPath string) error {
-	// 打开 GIF 文件
-	file, err := os.Open(inputPath)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+// GIFToPNGConverter 实现了Converter接口，用于GIF到PNG的转换
+type GIFToPNGConverter struct{}
 
+// NewGIFToPNGConverter 创建一个新的GIF到PNG转换器
+func NewGIFToPNGConverter() *GIFToPNGConverter {
+	return &GIFToPNGConverter{}
+}
+
+// Convert 实现Converter接口，将GIF图片转换为PNG格式
+func (c *GIFToPNGConverter) Convert(input io.Reader, output io.Writer) error {
 	// 解码 GIF 图像
-	gifImage, err := gif.DecodeAll(file)
+	gifImage, err := gif.DecodeAll(input)
 	if err != nil {
 		return err
 	}
@@ -26,15 +26,8 @@ func ConvertGIFToPNG(inputPath string, outputPath string) error {
 	// 如果需要处理所有帧，可以选择保存为多张 PNG 或其他方式
 	pngImage := gifImage.Image[0]
 
-	// 创建输出文件
-	outFile, err := os.Create(outputPath)
-	if err != nil {
-		return err
-	}
-	defer outFile.Close()
-
 	// 编码为 PNG 格式
-	err = png.Encode(outFile, pngImage)
+	err = png.Encode(output, pngImage)
 	if err != nil {
 		return err
 	}
