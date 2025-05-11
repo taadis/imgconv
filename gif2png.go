@@ -1,10 +1,17 @@
-package gif2png
+package imgconv
 
 import (
 	"image/gif"
 	"image/png"
 	"io"
 )
+
+// GIFToPNG converts a GIF image to PNG format.
+// It takes an input reader containing GIF data and writes PNG data to the output writer.
+// Returns an error if the conversion fails.
+func GIFToPNG(input io.Reader, output io.Writer) error {
+	return NewGIFToPNGConverter().Convert(input, output)
+}
 
 // GIFToPNGConverter 实现了Converter接口，用于GIF到PNG的转换
 type GIFToPNGConverter struct{}

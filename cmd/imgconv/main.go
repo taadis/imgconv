@@ -7,8 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/taadis/imgconv/internal/gif2png"
 )
 
 func main() {
@@ -53,7 +51,7 @@ func main() {
 		defer outputFile.Close()
 
 		// 执行转换
-		err = gif2png.NewGIFToPNGConverter().Convert(inputFile, outputFile)
+		err = NewGIFToPNGConverter().Convert(inputFile, outputFile)
 		if err != nil {
 			log.Fatalf("转换失败: %v", err)
 		}
